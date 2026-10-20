@@ -159,6 +159,7 @@ There are currently these vectorStore classes:
 -   ChromaDBVectorStore stores the embeddings in a `ChromaDB <https://www.trychroma.com/>`_ database.
 -   AstraDBVectorStore stores the embeddings in a `AstraDBB <https://docs.datastax.com/en/astra-db-serverless/index.html>`_ database.
 -   OpenSearchVectorStore stores the embeddings in a `OpenSearch <https://opensearch.org/>`_ database, which is a fork of Elasticsearch.
+-   MeilisearchVectorStore stores the embeddings in a `Meilisearch <https://www.meilisearch.com/>`_ index.
 -   TypesenseVectorStore stores the embeddings in a `Typesense <https://typesense.org/>`_ database.
 -   MongoDBVectorStore stores the embeddings in `MongoDB Atlas <https://www.mongodb.com/products/platform>`_. (require mongodb/mongodb and ext-mongodb)
 
@@ -364,8 +365,23 @@ Then create a new TypesenseDB vector store (``LLPhant\Embeddings\VectorStores\Ty
    // Default connection properties come from env vars TYPESENSE_API_KEY and TYPESENSE_NODE
    $vectorStore = new TypesenseVectorStore('test_collection');
 
+Meilisearch VectorStore
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Prerequisites : a Meilisearch server running (see `Meilisearch <https://www.meilisearch.com/docs/learn/self_hosted/getting_started_with_self_hosted_meilisearch>`_).
+
+Then create a new Meilisearch vector store (``LLPhant\Embeddings\VectorStores\Meilisearch\MeilisearchVectorStore``), for example:
+
+.. code-block:: php
+
+   // Default connection properties come from env vars MEILISEARCH_HOST and MEILISEARCH_API_KEY
+   $vectorStore = new MeilisearchVectorStore('test_index');
+   $vectorStore->createIndexIfDoesNotExist('test_index', 1536);
+
+Embeddings are stored as user provided vectors, so the index embedder dimensions must match your embedding generator.
+
 MongoDB VectorStore
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Prerequisites : a MongoDB Atlas cluster (see `MongoDB Atlas docs <https://www.mongodb.com/docs/atlas/getting-started/>`_).
 
